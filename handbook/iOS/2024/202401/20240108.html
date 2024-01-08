@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>NSTimer Block 为什么不会触发循环引用？！ | 张茨一飞</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/my-blog/avatar.png">
+    <meta name="description" content="老夫聊发少年狂,左牵黄,右擎苍,锦帽貂裘,千骑卷平冈。为报倾城随太守,亲射虎,看孙郎。 酒酣胸胆尚开张。鬓微霜,又何妨!持节云中,何日遣冯唐?会挽雕弓如满月,西北望,射天狼。">
+    
+    <link rel="preload" href="/my-blog/assets/css/0.styles.2175243c.css" as="style"><link rel="preload" href="/my-blog/assets/js/app.504dcbbf.js" as="script"><link rel="preload" href="/my-blog/assets/js/3.e68ab5ce.js" as="script"><link rel="preload" href="/my-blog/assets/js/1.768e4641.js" as="script"><link rel="preload" href="/my-blog/assets/js/16.ede64c24.js" as="script"><link rel="prefetch" href="/my-blog/assets/js/10.15cc3015.js"><link rel="prefetch" href="/my-blog/assets/js/11.0b3bc03a.js"><link rel="prefetch" href="/my-blog/assets/js/12.9c1daaff.js"><link rel="prefetch" href="/my-blog/assets/js/13.31fa5b27.js"><link rel="prefetch" href="/my-blog/assets/js/14.08e6ca19.js"><link rel="prefetch" href="/my-blog/assets/js/15.8b8b1881.js"><link rel="prefetch" href="/my-blog/assets/js/17.c0f4c557.js"><link rel="prefetch" href="/my-blog/assets/js/18.9dbe7f6c.js"><link rel="prefetch" href="/my-blog/assets/js/19.7ed28415.js"><link rel="prefetch" href="/my-blog/assets/js/20.60cdaa52.js"><link rel="prefetch" href="/my-blog/assets/js/21.f37b8aca.js"><link rel="prefetch" href="/my-blog/assets/js/22.4cfce6d7.js"><link rel="prefetch" href="/my-blog/assets/js/23.833c5a18.js"><link rel="prefetch" href="/my-blog/assets/js/24.2c25006c.js"><link rel="prefetch" href="/my-blog/assets/js/25.98d5683d.js"><link rel="prefetch" href="/my-blog/assets/js/26.21949454.js"><link rel="prefetch" href="/my-blog/assets/js/27.b58510ee.js"><link rel="prefetch" href="/my-blog/assets/js/28.b33c31fc.js"><link rel="prefetch" href="/my-blog/assets/js/29.fc9f4ee9.js"><link rel="prefetch" href="/my-blog/assets/js/30.74e9cf04.js"><link rel="prefetch" href="/my-blog/assets/js/31.b2799b61.js"><link rel="prefetch" href="/my-blog/assets/js/32.408e82ed.js"><link rel="prefetch" href="/my-blog/assets/js/33.df6a7d3e.js"><link rel="prefetch" href="/my-blog/assets/js/34.7f67d78c.js"><link rel="prefetch" href="/my-blog/assets/js/4.b2fd2bed.js"><link rel="prefetch" href="/my-blog/assets/js/5.9d45f87e.js"><link rel="prefetch" href="/my-blog/assets/js/6.76b9de72.js"><link rel="prefetch" href="/my-blog/assets/js/7.8131eda1.js"><link rel="prefetch" href="/my-blog/assets/js/8.df7f4290.js"><link rel="prefetch" href="/my-blog/assets/js/9.a3521382.js">
+    <link rel="stylesheet" href="/my-blog/assets/css/0.styles.2175243c.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar" data-v-130b300a><div data-v-130b300a><div class="password-shadow password-wrapper-out" style="display:none;" data-v-25ba6db2 data-v-130b300a data-v-130b300a><h3 class="title" data-v-25ba6db2 data-v-25ba6db2>张茨一飞</h3> <p class="description" data-v-25ba6db2 data-v-25ba6db2>老夫聊发少年狂,左牵黄,右擎苍,锦帽貂裘,千骑卷平冈。为报倾城随太守,亲射虎,看孙郎。 酒酣胸胆尚开张。鬓微霜,又何妨!持节云中,何日遣冯唐?会挽雕弓如满月,西北望,射天狼。</p> <label id="box" class="inputBox" data-v-25ba6db2 data-v-25ba6db2><input type="password" value="" data-v-25ba6db2> <span data-v-25ba6db2>Konck! Knock!</span> <button data-v-25ba6db2>OK</button></label> <div class="footer" data-v-25ba6db2 data-v-25ba6db2><span data-v-25ba6db2><i class="iconfont reco-theme" data-v-25ba6db2></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-25ba6db2>vuePress-theme-reco</a></span> <span data-v-25ba6db2><i class="iconfont reco-copyright" data-v-25ba6db2></i> <a data-v-25ba6db2><span data-v-25ba6db2>张茨一飞</span>
+            
+          <span data-v-25ba6db2>2015 - </span>
+          2024
+        </a></span></div></div> <div class="hide" data-v-130b300a><header class="navbar" data-v-130b300a><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/my-blog/" class="home-link router-link-active"><img src="/my-blog/avatar.png" alt="张茨一飞" class="logo"> <span class="site-name">张茨一飞</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <!----> <nav class="nav-links can-hide"><div class="nav-item"><a href="/my-blog/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      目录
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/categories/iOS开发/" class="nav-link"><i class="undefined"></i>
+  iOS开发
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/面试题/" class="nav-link"><i class="undefined"></i>
+  面试题
+</a></li></ul></div></div><div class="nav-item"><a href="/my-blog/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/my-blog/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间线
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      简历
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/views/Resume/resume.html" class="nav-link"><i class="undefined"></i>
+  我的简历
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      友情链接
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://gitee.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-mayun"></i>
+  Gitee
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-130b300a></div> <aside class="sidebar" data-v-130b300a><div class="personal-info-wrapper" data-v-39576ba9 data-v-130b300a><img src="avatar.png" alt="author-avatar" class="personal-img" data-v-39576ba9> <h3 class="name" data-v-39576ba9>
+    张茨一飞
+  </h3> <div class="num" data-v-39576ba9><div data-v-39576ba9><h3 data-v-39576ba9>24</h3> <h6 data-v-39576ba9>文章</h6></div> <div data-v-39576ba9><h3 data-v-39576ba9>8</h3> <h6 data-v-39576ba9>标签</h6></div></div> <ul class="social-links" data-v-39576ba9></ul> <hr data-v-39576ba9></div> <nav class="nav-links"><div class="nav-item"><a href="/my-blog/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      目录
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/categories/iOS开发/" class="nav-link"><i class="undefined"></i>
+  iOS开发
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/面试题/" class="nav-link"><i class="undefined"></i>
+  面试题
+</a></li></ul></div></div><div class="nav-item"><a href="/my-blog/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/my-blog/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间线
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      简历
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/views/Resume/resume.html" class="nav-link"><i class="undefined"></i>
+  我的简历
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      友情链接
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://gitee.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-mayun"></i>
+  Gitee
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav> <!----> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-25ba6db2 data-v-130b300a><h3 class="title" data-v-25ba6db2 data-v-25ba6db2>NSTimer Block 为什么不会触发循环引用？！</h3> <!----> <label id="box" class="inputBox" data-v-25ba6db2 data-v-25ba6db2><input type="password" value="" data-v-25ba6db2> <span data-v-25ba6db2>Konck! Knock!</span> <button data-v-25ba6db2>OK</button></label> <div class="footer" data-v-25ba6db2 data-v-25ba6db2><span data-v-25ba6db2><i class="iconfont reco-theme" data-v-25ba6db2></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-25ba6db2>vuePress-theme-reco</a></span> <span data-v-25ba6db2><i class="iconfont reco-copyright" data-v-25ba6db2></i> <a data-v-25ba6db2><span data-v-25ba6db2>张茨一飞</span>
+            
+          <span data-v-25ba6db2>2015 - </span>
+          2024
+        </a></span></div></div> <div data-v-130b300a><main class="page"><section><div class="page-title"><h1 class="title">NSTimer Block 为什么不会触发循环引用？！</h1> <div data-v-f875f3fc><i class="iconfont reco-account" data-v-f875f3fc><span data-v-f875f3fc>张茨一飞</span></i> <i class="iconfont reco-date" data-v-f875f3fc><span data-v-f875f3fc>2024/1/8</span></i> <!----> <i class="tags iconfont reco-tag" data-v-f875f3fc><span class="tag-item" data-v-f875f3fc>iOS开发</span></i></div></div> <div class="theme-reco-content content__default"><h1 id="引子"><a href="#引子" class="header-anchor">#</a> 引子</h1> <p>NSTimer 是 iOS Foundation 框架中一种计时器，在经过一定的时间间隔后触发，向目标对象发送指定的消息。</p> <p>本文以标题为主线，探究 NSTimer 与 Runloop 之间的关系。</p> <p>我们先看下面这段代码的运行：</p> <img src="/my-blog/assets/img/20240108.165c89ab.jpg" width="100%"> <p>场景：</p> <p>ViewController --Present-&gt; SecondViewController。其中 Manager 实例会持有 Block。
+SecondViewController 中有两个点击按钮，test1 按钮和 test2 按钮
+分别调度方法 -didTapTest1: 与 -didTapTest2:</p> <p>流程：</p> <ol><li>点击 xx 按钮；</li> <li>等待数秒，打印 block 中的内容；</li> <li>关闭 SecondViewController 控制器；</li></ol> <p>点击 test1 按钮执行流程，打印：</p> <div class="language- extra-class"><pre><code>2023-01-25 16:59:08.712191+0800 BlockMemoryLeaks[27573:1465591] Manager: &lt;Manager: 0x6000002e40c0&gt;
+</code></pre></div><p>点击 test2 按钮执行流程，打印：</p> <div class="language- extra-class"><pre><code>2023-01-25 17:01:47.305332+0800 BlockMemoryLeaks[27622:1467958] Timer: &lt;__NSCFTimer: 0x6000000400c0&gt;
+2023-01-25 17:01:48.305246+0800 BlockMemoryLeaks[27622:1467958] Timer: &lt;__NSCFTimer: 0x6000000400c0&gt;
+2023-01-25 17:01:49.141697+0800 BlockMemoryLeaks[27622:1467958] SecondViewController dealloc
+</code></pre></div><p>test1 Manager 和预期一样，Manager -&gt; Block，Block -&gt; self，self -&gt; Manager，造成了循环引用。</p> <p>而 test2 NSTimer 虽然被 self 持有，这个 Block 也捕获了 self，但这并没有触发循环引用。</p> <h2 id="nstimer-与-runloop"><a href="#nstimer-与-runloop" class="header-anchor">#</a> NSTimer 与 Runloop</h2> <p>在苹果关于 NSTimer 文档中有描述，NSTimer 和 CFRunLoopTimerRef 是 toll-free bridged 的：</p> <div class="language- extra-class"><pre><code>NSTimer is toll-free bridged with its Core Foundation counterpart, CFRunLoopTimerRef.
+</code></pre></div><p>NSTimer 是中间桥接层，意味着其实定时器运作是交给 Runloop 处理的。</p> <div class="language- extra-class"><pre><code>typedef struct CF_BRIDGED_MUTABLE_TYPE(NSTimer) __CFRunLoopTimer * CFRunLoopTimerRef;
+</code></pre></div><p>即便是 NSTimer 是中间层，如果底层 Timer 持有了 Block，还是存在循环引用。接着阅读 Runloop 代码来找到标题问题的答案。</p> <h3 id="runloop-的-mode"><a href="#runloop-的-mode" class="header-anchor">#</a> RunLoop 的 Mode</h3> <p>CFRunloop 与 CFRunloop Mode 的大致结构如下：</p> <div class="language- extra-class"><pre><code>struct __CFRunLoopMode {
+    CFStringRef _name;            
+    CFMutableSetRef _sources0;    
+    CFMutableSetRef _sources1;    
+    CFMutableArrayRef _observers;
+    CFMutableArrayRef _timers;    
+    // ...
+};
+
+struct __CFRunLoop {
+    CFRuntimeBase _base;
+    CFMutableSetRef _commonModes;   
+    CFMutableSetRef _commonModeItems;
+    CFRunLoopModeRef _currentMode;  
+    CFMutableSetRef _modes;         
+    // ...
+};
+</code></pre></div><p>一个 CFRunLoop 中包含若干个 CFRunLoopMode，CFRunLoopTimer 则被注册在 mode 下。</p> <div class="language- extra-class"><pre><code>struct __CFRunLoopTimer {
+    CFRuntimeBase _base;
+    uint16_t _bits;
+    pthread_mutex_t _lock;
+    CFRunLoopRef _runLoop;
+    CFMutableSetRef _rlModes;
+    CFAbsoluteTime _nextFireDate;
+    CFTimeInterval _interval;		/* immutable */
+    CFTimeInterval _tolerance;          /* mutable */
+    uint64_t _fireTSR;			/* TSR units */
+    CFIndex _order;			/* immutable */
+    CFRunLoopTimerCallBack _callout;	/* immutable */
+    CFRunLoopTimerContext _context;	/* immutable, except invalidation */
+};
+</code></pre></div><p>CFRunLoopTimer 包含一个时间长度和一个回调，标记了它所在的 runloop mode。</p> <h3 id="从添加-timer-开始"><a href="#从添加-timer-开始" class="header-anchor">#</a> 从添加 Timer 开始</h3> <p>先看 CFRunLoopAddTimer 方法</p> <div class="language- extra-class"><pre><code>void CFRunLoopAddTimer(CFRunLoopRef rl, CFRunLoopTimerRef rlt, CFStringRef modeName) {    
+    CHECK_FOR_FORK();
+    if (__CFRunLoopIsDeallocating(rl)) return;
+    if (!__CFIsValid(rlt) || (NULL != rlt-&gt;_runLoop &amp;&amp; rlt-&gt;_runLoop != rl)) return;
+    __CFRunLoopLock(rl);
+    if (modeName == kCFRunLoopCommonModes) {
+        /* Mode 是 CommonModes */
+        CFSetRef set = rl-&gt;_commonModes ? CFSetCreateCopy(kCFAllocatorSystemDefault, rl-&gt;_commonModes) : NULL;
+        if (NULL == rl-&gt;_commonModeItems) {
+            rl-&gt;_commonModeItems = CFSetCreateMutable(kCFAllocatorSystemDefault, 0, &amp;kCFTypeSetCallBacks);
+        }
+        CFSetAddValue(rl-&gt;_commonModeItems, rlt);
+        if (NULL != set) {
+            CFTypeRef context[2] = {rl, rlt};
+            /* 将 Timer 加入到所有 Common Mode 中 */
+            CFSetApplyFunction(set, (__CFRunLoopAddItemToCommonModes), (void *)context);
+            CFRelease(set);
+        }
+    } else {
+        /* Mode 是指定 Mode */
+        CFRunLoopModeRef rlm = __CFRunLoopFindMode(rl, modeName, true);
+        if (NULL != rlm) {
+            if (NULL == rlm-&gt;_timers) {
+                CFArrayCallBacks cb = kCFTypeArrayCallBacks;
+                cb.equal = NULL;
+                rlm-&gt;_timers = CFArrayCreateMutable(kCFAllocatorSystemDefault, 0, &amp;cb);
+            }
+        }
+        if (NULL != rlm &amp;&amp; !CFSetContainsValue(rlt-&gt;_rlModes, rlm-&gt;_name)) {
+            __CFRunLoopTimerLock(rlt);
+            if (NULL == rlt-&gt;_runLoop) {
+                // 标记 Timer 对应的 Runloop
+                rlt-&gt;_runLoop = rl;
+            } else if (rl != rlt-&gt;_runLoop) {
+                __CFRunLoopTimerUnlock(rlt);
+                __CFRunLoopModeUnlock(rlm);
+                __CFRunLoopUnlock(rl);
+                return;
+            }
+            // 标记 Timer 对应的 Runloop Mode
+            CFSetAddValue(rlt-&gt;_rlModes, rlm-&gt;_name);
+            __CFRunLoopTimerUnlock(rlt);
+            __CFRunLoopTimerFireTSRLock();
+            /* 重新排序指定 Mode 中的各个 Timer */
+            __CFRepositionTimerInMode(rlm, rlt, false);
+            __CFRunLoopTimerFireTSRUnlock();
+            if (!_CFExecutableLinkedOnOrAfter(CFSystemVersionLion)) {
+                if (rl != CFRunLoopGetCurrent()) CFRunLoopWakeUp(rl);
+            }
+        }
+        if (NULL != rlm) {
+            __CFRunLoopModeUnlock(rlm);
+        }
+    }
+    __CFRunLoopUnlock(rl);
+}
+</code></pre></div><p>CFRunLoopAddTimer(<em>:</em>:<em>😃 将 Timer 添加到 Runloop 的指定 Mode 下。如果被添加的是 commonModes 则遍历所有 commonMode 调用 CFRunLoopAddTimer(</em>:<em>:</em>😃 方法。然后调用 __CFRepositionTimerInMode 函数排序：</p> <div class="language- extra-class"><pre><code>static void __CFRepositionTimerInMode(CFRunLoopModeRef rlm, CFRunLoopTimerRef rlt, Boolean isInArray) {
+    if (!rlt) return;
+    // 拿到 Mode 下所有 timer
+    CFMutableArrayRef timerArray = rlm-&gt;_timers;
+    if (!timerArray) return;
+    Boolean found = false;
+    if (isInArray) {
+        CFIndex idx = CFArrayGetFirstIndexOfValue(timerArray, CFRangeMake(0, CFArrayGetCount(timerArray)), rlt);
+        if (kCFNotFound != idx) {
+            CFRetain(rlt);
+            CFArrayRemoveValueAtIndex(timerArray, idx);
+            found = true;
+        }
+    }
+    if (!found &amp;&amp; isInArray) return;
+    // 二分法确定位置，插入有序数组
+    CFIndex newIdx = __CFRunLoopInsertionIndexInTimerArray(timerArray, rlt);
+    CFArrayInsertValueAtIndex(timerArray, newIdx, rlt);
+    // 
+    __CFArmNextTimerInMode(rlm, rlt-&gt;_runLoop);
+    if (isInArray) CFRelease(rlt);
+}
+</code></pre></div><p>__CFRepositionTimerInMode 方法以触发时间 _fireTSR 从小到大排序 rlm-&gt;timers Mode 的 timers 数组。
+排序完成后调用 __CFArmNextTimerInMode 重新注册最早应该被触发的 timer</p> <div class="language- extra-class"><pre><code>static void __CFArmNextTimerInMode(CFRunLoopModeRef rlm, CFRunLoopRef rl) {    
+    uint64_t nextHardDeadline = UINT64_MAX;
+    uint64_t nextSoftDeadline = UINT64_MAX;
+    if (rlm-&gt;_timers) {
+        // 修正 tolerance 值，确保时间最近的 timer + tolerance 大于其他 Timer 时，不影响其他 Timer 触发
+        for (CFIndex idx = 0, cnt = CFArrayGetCount(rlm-&gt;_timers); idx &lt; cnt; idx++) {
+            CFRunLoopTimerRef t = (CFRunLoopTimerRef)CFArrayGetValueAtIndex(rlm-&gt;_timers , idx);
+            if (__CFRunLoopTimerIsFiring(t)) continue;
+            int32_t err = CHECKINT_NO_ERROR;
+            uint64_t oneTimerSoftDeadline = t-&gt;_fireTSR;
+            uint64_t oneTimerHardDeadline = check_uint64_add(t-&gt;_fireTSR, __CFTimeIntervalToTSR(t-&gt;_tolerance), &amp;err);
+            if (err != CHECKINT_NO_ERROR) oneTimerHardDeadline = UINT64_MAX;    
+
+            if (oneTimerSoftDeadline &gt; nextHardDeadline) {
+                break;
+            }
+            if (oneTimerSoftDeadline &lt; nextSoftDeadline) {
+                nextSoftDeadline = oneTimerSoftDeadline;
+            }
+            if (oneTimerHardDeadline &lt; nextHardDeadline) {
+                nextHardDeadline = oneTimerHardDeadline;
+            }
+        }
+        if (nextSoftDeadline &lt; UINT64_MAX &amp;&amp; (nextHardDeadline != rlm-&gt;_timerHardDeadline || nextSoftDeadline != rlm-&gt;_timerSoftDeadline)) {
+            if (CFRUNLOOP_NEXT_TIMER_ARMED_ENABLED()) {
+                CFRUNLOOP_NEXT_TIMER_ARMED((unsigned long)(nextSoftDeadline - mach_absolute_time()));
+            }
+#if USE_DISPATCH_SOURCE_FOR_TIMERS
+            uint64_t leeway = __CFTSRToNanoseconds(nextHardDeadline - nextSoftDeadline);
+            dispatch_time_t deadline = __CFTSRToDispatchTime(nextSoftDeadline);
+#if USE_MK_TIMER_TOO
+            if (leeway &gt; 0) {
+                // 有 tolerance 采用 _dispatch_source_set_runloop_timer_4CF 方式注册定时器
+                if (rlm-&gt;_mkTimerArmed &amp;&amp; rlm-&gt;_timerPort) {
+                    AbsoluteTime dummy;
+                    mk_timer_cancel(rlm-&gt;_timerPort, &amp;dummy);
+                    rlm-&gt;_mkTimerArmed = false;
+                }
+                _dispatch_source_set_runloop_timer_4CF(rlm-&gt;_timerSource, deadline, DISPATCH_TIME_FOREVER, leeway);
+                rlm-&gt;_dispatchTimerArmed = true;
+            } else {
+                // 没有 tolerance 采用 RunloopMode 的 mk_timer 方式注册 mach-port 事件
+                if (rlm-&gt;_dispatchTimerArmed) {
+                    _dispatch_source_set_runloop_timer_4CF(rlm-&gt;_timerSource, DISPATCH_TIME_FOREVER, DISPATCH_TIME_FOREVER, 888);
+                    rlm-&gt;_dispatchTimerArmed = false;
+                }
+                if (rlm-&gt;_timerPort) {
+                    mk_timer_arm(rlm-&gt;_timerPort, __CFUInt64ToAbsoluteTime(nextSoftDeadline));
+                    rlm-&gt;_mkTimerArmed = true;
+                }
+            }
+#else
+            _dispatch_source_set_runloop_timer_4CF(rlm-&gt;_timerSource, deadline, DISPATCH_TIME_FOREVER, leeway);
+#endif
+#else
+            if (rlm-&gt;_timerPort) {
+                mk_timer_arm(rlm-&gt;_timerPort, __CFUInt64ToAbsoluteTime(nextSoftDeadline));
+            }
+#endif
+        } else if (nextSoftDeadline == UINT64_MAX) {
+            // 如果没有定时器安排，则解除定时器，将 _mkTimerArmed 值置为 false
+            if (rlm-&gt;_mkTimerArmed &amp;&amp; rlm-&gt;_timerPort) {
+                AbsoluteTime dummy;
+                mk_timer_cancel(rlm-&gt;_timerPort, &amp;dummy);
+                rlm-&gt;_mkTimerArmed = false;
+            }
+#if USE_DISPATCH_SOURCE_FOR_TIMERS
+            if (rlm-&gt;_dispatchTimerArmed) {
+                _dispatch_source_set_runloop_timer_4CF(rlm-&gt;_timerSource, DISPATCH_TIME_FOREVER, DISPATCH_TIME_FOREVER, 333);
+                rlm-&gt;_dispatchTimerArmed = false;
+            }
+#endif
+        }
+    }
+    // 设置 Runloop Mode 的两个截止时间字段 Deadline
+    rlm-&gt;_timerHardDeadline = nextHardDeadline;
+    rlm-&gt;_timerSoftDeadline = nextSoftDeadline;
+}
+</code></pre></div><p>这个方法简单来说就是注册下一个需要触发的 Timer 事件到 Runloop 中。其中有配置 tolerance 的 Timer 会被注册为一个 GCD Timer，未配置 tolerance 的 Timer 截止时间会被注册一个 mach-port 事件，设置到 Runloop Mode 中。</p> <h3 id="触发-timercallback"><a href="#触发-timercallback" class="header-anchor">#</a> 触发 TimerCallBack</h3> <p>等到 Runloop 被 timer mach-port 唤醒时，调用 __CFRunLoopDoTimers 函数，筛选 _fireTSR 早于当前时刻的 timers：</p> <div class="language- extra-class"><pre><code>static Boolean __CFRunLoopDoTimers(CFRunLoopRef rl, CFRunLoopModeRef rlm, uint64_t limitTSR) {	/* DOES CALLOUT */
+    Boolean timerHandled = false;
+    CFMutableArrayRef timers = NULL;
+    for (CFIndex idx = 0, cnt = rlm-&gt;_timers ? CFArrayGetCount(rlm-&gt;_timers) : 0; idx &lt; cnt; idx++) {
+        CFRunLoopTimerRef rlt = (CFRunLoopTimerRef)CFArrayGetValueAtIndex(rlm-&gt;_timers, idx);
+        if (__CFIsValid(rlt) &amp;&amp; !__CFRunLoopTimerIsFiring(rlt)) {
+            if (rlt-&gt;_fireTSR &lt;= limitTSR) {
+                // 筛选 _fireTSR 早于当前时刻的 timers
+                if (!timers) timers = CFArrayCreateMutable(kCFAllocatorSystemDefault, 0, &amp;kCFTypeArrayCallBacks);
+                CFArrayAppendValue(timers, rlt);
+            }
+        }
+    }
+    for (CFIndex idx = 0, cnt = timers ? CFArrayGetCount(timers) : 0; idx &lt; cnt; idx++) {
+        CFRunLoopTimerRef rlt = (CFRunLoopTimerRef)CFArrayGetValueAtIndex(timers, idx);
+        // 筛选后的 timer 依次调用 __CFRunLoopDoTimer
+        Boolean did = __CFRunLoopDoTimer(rl, rlm, rlt);
+        timerHandled = timerHandled || did;
+    }
+    if (timers) CFRelease(timers);
+    return timerHandled;
+}
+</code></pre></div><p>接下来 timers 依次调用 __CFRunLoopDoTimer，这个方法中会调用 timer 的任务 rlt-&gt;_callout，重新排序 timer，注册下一个 timerPort。</p> <h2 id="结论"><a href="#结论" class="header-anchor">#</a> 结论</h2> <p>从添加 Timer 到触发 Timer，分析了 Runloop Mode 的数据结构，自始至终 CFRunLoopTimer 都在被 Runloop 管理。NSTimer 对象仅是 Foundation 到 CoreFoundation 衔接的对象，通过 NSTimer 可以匹配操作到 CFRunLoopTimerRef 对象，而 CoreFoundation 的对象已经由底层 CFRetain 和 CFRelease 方法正确 Retain 和 Release。不存在循环引用。</p> <h1 id="end"><a href="#end" class="header-anchor">#</a> END</h1></div></section> <footer class="page-edit"><!----> <!----></footer> <!----> <div class="comments-wrapper"><!----></div> <ul class="side-bar sub-sidebar-wrapper" style="width:12rem;" data-v-cb1513f6><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2024/202401/20240108.html#nstimer-与-runloop" class="sidebar-link reco-side-nstimer-与-runloop" data-v-cb1513f6>NSTimer 与 Runloop</a></li><li class="level-3" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2024/202401/20240108.html#runloop-的-mode" class="sidebar-link reco-side-runloop-的-mode" data-v-cb1513f6>RunLoop 的 Mode</a></li><li class="level-3" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2024/202401/20240108.html#从添加-timer-开始" class="sidebar-link reco-side-从添加-timer-开始" data-v-cb1513f6>从添加 Timer 开始</a></li><li class="level-3" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2024/202401/20240108.html#触发-timercallback" class="sidebar-link reco-side-触发-timercallback" data-v-cb1513f6>触发 TimerCallBack</a></li><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2024/202401/20240108.html#结论" class="sidebar-link reco-side-结论" data-v-cb1513f6>结论</a></li></ul></main> <!----></div></div></div></div><div class="global-ui"><!----><!----><canvas id="vuepress-canvas-cursor"></canvas><!----><div class="RibbonAnimation"></div></div></div>
+    <script src="/my-blog/assets/js/app.504dcbbf.js" defer></script><script src="/my-blog/assets/js/3.e68ab5ce.js" defer></script><script src="/my-blog/assets/js/1.768e4641.js" defer></script><script src="/my-blog/assets/js/16.ede64c24.js" defer></script>
+  </body>
+</html>
