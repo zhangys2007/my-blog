@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>响应者链条 | 张茨一飞</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/my-blog/avatar.png">
+    <meta name="description" content="老夫聊发少年狂,左牵黄,右擎苍,锦帽貂裘,千骑卷平冈。为报倾城随太守,亲射虎,看孙郎。 酒酣胸胆尚开张。鬓微霜,又何妨!持节云中,何日遣冯唐?会挽雕弓如满月,西北望,射天狼。">
+    
+    <link rel="preload" href="/my-blog/assets/css/0.styles.2175243c.css" as="style"><link rel="preload" href="/my-blog/assets/js/app.83219bff.js" as="script"><link rel="preload" href="/my-blog/assets/js/3.e68ab5ce.js" as="script"><link rel="preload" href="/my-blog/assets/js/1.768e4641.js" as="script"><link rel="preload" href="/my-blog/assets/js/27.85eafcc1.js" as="script"><link rel="prefetch" href="/my-blog/assets/js/10.c206caee.js"><link rel="prefetch" href="/my-blog/assets/js/11.9f4ed03b.js"><link rel="prefetch" href="/my-blog/assets/js/12.9c1daaff.js"><link rel="prefetch" href="/my-blog/assets/js/13.508ca0aa.js"><link rel="prefetch" href="/my-blog/assets/js/14.f2709fef.js"><link rel="prefetch" href="/my-blog/assets/js/15.fe2625e7.js"><link rel="prefetch" href="/my-blog/assets/js/16.14234636.js"><link rel="prefetch" href="/my-blog/assets/js/17.dac017be.js"><link rel="prefetch" href="/my-blog/assets/js/18.412e2895.js"><link rel="prefetch" href="/my-blog/assets/js/19.2fdd618b.js"><link rel="prefetch" href="/my-blog/assets/js/20.c12b7107.js"><link rel="prefetch" href="/my-blog/assets/js/21.9f012cff.js"><link rel="prefetch" href="/my-blog/assets/js/22.9bbde15a.js"><link rel="prefetch" href="/my-blog/assets/js/23.fae03859.js"><link rel="prefetch" href="/my-blog/assets/js/24.9c2773c9.js"><link rel="prefetch" href="/my-blog/assets/js/25.d72b23bf.js"><link rel="prefetch" href="/my-blog/assets/js/26.02e61b2e.js"><link rel="prefetch" href="/my-blog/assets/js/28.364da631.js"><link rel="prefetch" href="/my-blog/assets/js/29.b0ad14d8.js"><link rel="prefetch" href="/my-blog/assets/js/30.333ca256.js"><link rel="prefetch" href="/my-blog/assets/js/31.206c8a40.js"><link rel="prefetch" href="/my-blog/assets/js/32.7fb99002.js"><link rel="prefetch" href="/my-blog/assets/js/33.069f064a.js"><link rel="prefetch" href="/my-blog/assets/js/34.5e3b35db.js"><link rel="prefetch" href="/my-blog/assets/js/35.0bd3d6ff.js"><link rel="prefetch" href="/my-blog/assets/js/36.fda2e78e.js"><link rel="prefetch" href="/my-blog/assets/js/37.6f1fb53e.js"><link rel="prefetch" href="/my-blog/assets/js/4.b2fd2bed.js"><link rel="prefetch" href="/my-blog/assets/js/5.9d45f87e.js"><link rel="prefetch" href="/my-blog/assets/js/6.76b9de72.js"><link rel="prefetch" href="/my-blog/assets/js/7.0366ddcd.js"><link rel="prefetch" href="/my-blog/assets/js/8.df7f4290.js"><link rel="prefetch" href="/my-blog/assets/js/9.a3521382.js">
+    <link rel="stylesheet" href="/my-blog/assets/css/0.styles.2175243c.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar" data-v-130b300a><div data-v-130b300a><div class="password-shadow password-wrapper-out" style="display:none;" data-v-25ba6db2 data-v-130b300a data-v-130b300a><h3 class="title" data-v-25ba6db2 data-v-25ba6db2>张茨一飞</h3> <p class="description" data-v-25ba6db2 data-v-25ba6db2>老夫聊发少年狂,左牵黄,右擎苍,锦帽貂裘,千骑卷平冈。为报倾城随太守,亲射虎,看孙郎。 酒酣胸胆尚开张。鬓微霜,又何妨!持节云中,何日遣冯唐?会挽雕弓如满月,西北望,射天狼。</p> <label id="box" class="inputBox" data-v-25ba6db2 data-v-25ba6db2><input type="password" value="" data-v-25ba6db2> <span data-v-25ba6db2>Konck! Knock!</span> <button data-v-25ba6db2>OK</button></label> <div class="footer" data-v-25ba6db2 data-v-25ba6db2><span data-v-25ba6db2><i class="iconfont reco-theme" data-v-25ba6db2></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-25ba6db2>vuePress-theme-reco</a></span> <span data-v-25ba6db2><i class="iconfont reco-copyright" data-v-25ba6db2></i> <a data-v-25ba6db2><span data-v-25ba6db2>张茨一飞</span>
+            
+          <span data-v-25ba6db2>2015 - </span>
+          2024
+        </a></span></div></div> <div class="hide" data-v-130b300a><header class="navbar" data-v-130b300a><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/my-blog/" class="home-link router-link-active"><img src="/my-blog/avatar.png" alt="张茨一飞" class="logo"> <span class="site-name">张茨一飞</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <!----> <nav class="nav-links can-hide"><div class="nav-item"><a href="/my-blog/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      目录
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/categories/iOS开发/" class="nav-link"><i class="undefined"></i>
+  iOS开发
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/生活/" class="nav-link"><i class="undefined"></i>
+  生活
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/面试题/" class="nav-link"><i class="undefined"></i>
+  面试题
+</a></li></ul></div></div><div class="nav-item"><a href="/my-blog/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/my-blog/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间线
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      简历
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/views/Resume/resume.html" class="nav-link"><i class="undefined"></i>
+  我的简历
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      友情链接
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://gitee.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-mayun"></i>
+  Gitee
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-130b300a></div> <aside class="sidebar" data-v-130b300a><div class="personal-info-wrapper" data-v-39576ba9 data-v-130b300a><img src="avatar.png" alt="author-avatar" class="personal-img" data-v-39576ba9> <h3 class="name" data-v-39576ba9>
+    张茨一飞
+  </h3> <div class="num" data-v-39576ba9><div data-v-39576ba9><h3 data-v-39576ba9>27</h3> <h6 data-v-39576ba9>文章</h6></div> <div data-v-39576ba9><h3 data-v-39576ba9>9</h3> <h6 data-v-39576ba9>标签</h6></div></div> <ul class="social-links" data-v-39576ba9></ul> <hr data-v-39576ba9></div> <nav class="nav-links"><div class="nav-item"><a href="/my-blog/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      目录
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/categories/iOS开发/" class="nav-link"><i class="undefined"></i>
+  iOS开发
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/生活/" class="nav-link"><i class="undefined"></i>
+  生活
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/面试题/" class="nav-link"><i class="undefined"></i>
+  面试题
+</a></li></ul></div></div><div class="nav-item"><a href="/my-blog/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/my-blog/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间线
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      简历
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/views/Resume/resume.html" class="nav-link"><i class="undefined"></i>
+  我的简历
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      友情链接
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://gitee.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-mayun"></i>
+  Gitee
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav> <!----> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-25ba6db2 data-v-130b300a><h3 class="title" data-v-25ba6db2 data-v-25ba6db2>响应者链条</h3> <!----> <label id="box" class="inputBox" data-v-25ba6db2 data-v-25ba6db2><input type="password" value="" data-v-25ba6db2> <span data-v-25ba6db2>Konck! Knock!</span> <button data-v-25ba6db2>OK</button></label> <div class="footer" data-v-25ba6db2 data-v-25ba6db2><span data-v-25ba6db2><i class="iconfont reco-theme" data-v-25ba6db2></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-25ba6db2>vuePress-theme-reco</a></span> <span data-v-25ba6db2><i class="iconfont reco-copyright" data-v-25ba6db2></i> <a data-v-25ba6db2><span data-v-25ba6db2>张茨一飞</span>
+            
+          <span data-v-25ba6db2>2015 - </span>
+          2024
+        </a></span></div></div> <div data-v-130b300a><main class="page"><section><div class="page-title"><h1 class="title">响应者链条</h1> <div data-v-f875f3fc><i class="iconfont reco-account" data-v-f875f3fc><span data-v-f875f3fc>张茨一飞</span></i> <i class="iconfont reco-date" data-v-f875f3fc><span data-v-f875f3fc>2022/9/12</span></i> <!----> <i class="tags iconfont reco-tag" data-v-f875f3fc><span class="tag-item" data-v-f875f3fc>iOS开发</span></i></div></div> <div class="theme-reco-content content__default"><h2 id="响应者链条"><a href="#响应者链条" class="header-anchor">#</a> 响应者链条</h2> <p>关于响应者链条，相信大家可能听说过这么一句话：<strong>事件由上往下传递，响应由下往上传递</strong>，那么这句话是什么意思呢？
+我们知道，在写UI时，每个UI控件，或是UI视图，都是从最初的一个UIView上，不断调用addSubview方法，叠加在父view上，进行展示的。
+例如，假设我们有下面这么一段代码：</p> <div class="language- extra-class"><pre><code>UIView *view1, *view2;
+UIButton *btn1;
+
+view1 = [UIView new];
+view2 = [UIView new];
+btn1 = [UIButton new];
+
+[view1 addSubview:view2];
+[view2 addSubview:btn1];
+</code></pre></div><p>显而易见，view2的父视图为view1，btn1的父视图为view2。
+如果我们现在在btn1上有一个点击事件，那么这个点击事件会直接传递给btn1吗？
+答案是否定的，因为事件是由上往下传递的，这个事件会先传递给view1，再传递给view2，最后传递给btn1。
+事件传递主要依靠下面这个函数来实现：</p> <div class="language- extra-class"><pre><code>- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    // 3种状态无法响应事件，1.用户交互被禁用；2.当前视图被隐藏；3.当前视图透明度小于0.01（跟被隐藏了差不多）
+    if (self.userInteractionEnabled == NO || self.hidden == YES ||  self.alpha &lt;= 0.01) return nil;
+    
+    // 触摸点若不在当前视图上则无法响应事件
+    if ([self pointInside:point withEvent:event] == NO) return nil;
+    // 从后往前遍历子视图数组
+    int count = (int)self.subviews.count; // 子视图数目
+    for (int i = count - 1; i &gt;= 0; i--) {
+        // 获取子视图
+        UIView *childView = self.subviews[i];
+        // 坐标系的转换,把触摸点在当前视图上坐标转换为在子视图上的坐标
+        CGPoint childP = [self convertPoint:point toView:childView];
+        // 询问子视图层级中的最佳响应视图
+        UIView *fitView = [childView hitTest:childP withEvent:event];
+        if (fitView){
+            // 如果子视图中有更合适的就返回
+            return fitView;
+        }
+    }
+    // 没有在子视图中找到更合适的响应视图，那么自身就是最合适的
+    return self;
+}
+</code></pre></div><p>从函数中可以看出，事件传递的流程为：</p> <ol><li>如果当前视图无法响应事件，则返回nil</li> <li>如果当前点击处在当前视图可响应范围之外，则返回nil</li> <li>从后往前遍历子视图，如果子视图能够处理当前事件，则返回子视图</li> <li>否则返回自身视图</li></ol> <p>其中，第3步中，从后往前而不是从前往后遍历子视图的原因是：后加入的子视图会覆盖在先前加入的子视图之上，从用户角度来说，用户希望得到响应的视图应该是能够被看见的视图，而后加入的子视图因为会覆盖在最顶层所以更容易被用户看见，因此应该从后往前遍历。</p> <p>此外，我们也应该注意pointInside: withEvent:这个方法，是很多面试官爱考的考点。 我们可以通过overwrite这个方法，来改变一个视图能够响应的范围（默认能够响应的范围是这个视图包含的屏幕区域）。</p> <p>关于响应从下往上传递：我们在将事件从上往下传递后，利用- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event方法找到的最合适的响应视图，并不一定能够处理当前事件，仍按照上面的例子来说，假设我们有如下代码：</p> <div class="language- extra-class"><pre><code>UIView *view1, *view2;
+UIButton *btn1;
+
+view1 = [UIView new];
+view2 = [UIView new];
+view2.userInteractionEnabled = YES;
+btn1 = [UIButton new];
+
+[view1 addSubview:btn1];
+[btn1 addSubview:view2];
+</code></pre></div><p>注意与之前的区别，现在view2的父视图为btn1，而btn1的父视图为view1，view2和btn1的父子关系互相调换了。 此外，我们还开启了view2的用户交互属性。</p> <p>如果我们现在在btn1上有一个点击事件，按照事件从上往下传递的流程，我们会找到view2。 然而，我们会发现view2并不能够处理这个点击事件，因此，这个点击事件便由下往上传递给了btn1，并交由btn1处理（btn1能够处理，则调用相应的响应方法进行处理）。 假设btn1仍然不能处理，则继续往上传递给view1，直至事件被处理或者最后被丢弃。</p> <h2 id="uibutton的继承关系"><a href="#uibutton的继承关系" class="header-anchor">#</a> UIButton的继承关系</h2> <p>UIButton的继承关系为：</p> <div class="language- extra-class"><pre><code>UIButton --&gt; UIControl --&gt; UIView --&gt; UIResponder --&gt; NSObject
+</code></pre></div><p>我们要注意UIResponder和UIControl的区别：</p> <ol><li>UIResponder可以响应某个事件，利用touchesBegan: withEvent:方法（自己的事情自己做）</li> <li>UIControl不仅本身可以响应某个事件，还可以利用addTarget: forSelector: withEvent:为指定的某个对象添加事件（交给别人来做）</li></ol> <p>例如，普通的UIView想要响应事件，只能依靠自身实现touchesBegan: withEvent:方法； 而UIButton想要响应事件，不仅可以依靠自身，还可以将这个事件绑定到一个目标对象上，依靠目标对象的某个方法来处理事件。</p></div></section> <footer class="page-edit"><!----> <!----></footer> <!----> <div class="comments-wrapper"><!----></div> <ul class="side-bar sub-sidebar-wrapper" style="width:12rem;" data-v-cb1513f6><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2022/20220912/20220912.html#响应者链条" class="sidebar-link reco-side-响应者链条" data-v-cb1513f6>响应者链条</a></li><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2022/20220912/20220912.html#uibutton的继承关系" class="sidebar-link reco-side-uibutton的继承关系" data-v-cb1513f6>UIButton的继承关系</a></li></ul></main> <!----></div></div></div></div><div class="global-ui"><!----><!----><canvas id="vuepress-canvas-cursor"></canvas><!----><div class="RibbonAnimation"></div></div></div>
+    <script src="/my-blog/assets/js/app.83219bff.js" defer></script><script src="/my-blog/assets/js/3.e68ab5ce.js" defer></script><script src="/my-blog/assets/js/1.768e4641.js" defer></script><script src="/my-blog/assets/js/27.85eafcc1.js" defer></script>
+  </body>
+</html>

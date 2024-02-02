@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>设计模式-03.抽象工厂模式 | 张茨一飞</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/my-blog/avatar.png">
+    <meta name="description" content="老夫聊发少年狂,左牵黄,右擎苍,锦帽貂裘,千骑卷平冈。为报倾城随太守,亲射虎,看孙郎。 酒酣胸胆尚开张。鬓微霜,又何妨!持节云中,何日遣冯唐?会挽雕弓如满月,西北望,射天狼。">
+    
+    <link rel="preload" href="/my-blog/assets/css/0.styles.2175243c.css" as="style"><link rel="preload" href="/my-blog/assets/js/app.83219bff.js" as="script"><link rel="preload" href="/my-blog/assets/js/3.e68ab5ce.js" as="script"><link rel="preload" href="/my-blog/assets/js/1.768e4641.js" as="script"><link rel="preload" href="/my-blog/assets/js/16.14234636.js" as="script"><link rel="prefetch" href="/my-blog/assets/js/10.c206caee.js"><link rel="prefetch" href="/my-blog/assets/js/11.9f4ed03b.js"><link rel="prefetch" href="/my-blog/assets/js/12.9c1daaff.js"><link rel="prefetch" href="/my-blog/assets/js/13.508ca0aa.js"><link rel="prefetch" href="/my-blog/assets/js/14.f2709fef.js"><link rel="prefetch" href="/my-blog/assets/js/15.fe2625e7.js"><link rel="prefetch" href="/my-blog/assets/js/17.dac017be.js"><link rel="prefetch" href="/my-blog/assets/js/18.412e2895.js"><link rel="prefetch" href="/my-blog/assets/js/19.2fdd618b.js"><link rel="prefetch" href="/my-blog/assets/js/20.c12b7107.js"><link rel="prefetch" href="/my-blog/assets/js/21.9f012cff.js"><link rel="prefetch" href="/my-blog/assets/js/22.9bbde15a.js"><link rel="prefetch" href="/my-blog/assets/js/23.fae03859.js"><link rel="prefetch" href="/my-blog/assets/js/24.9c2773c9.js"><link rel="prefetch" href="/my-blog/assets/js/25.d72b23bf.js"><link rel="prefetch" href="/my-blog/assets/js/26.02e61b2e.js"><link rel="prefetch" href="/my-blog/assets/js/27.85eafcc1.js"><link rel="prefetch" href="/my-blog/assets/js/28.364da631.js"><link rel="prefetch" href="/my-blog/assets/js/29.b0ad14d8.js"><link rel="prefetch" href="/my-blog/assets/js/30.333ca256.js"><link rel="prefetch" href="/my-blog/assets/js/31.206c8a40.js"><link rel="prefetch" href="/my-blog/assets/js/32.7fb99002.js"><link rel="prefetch" href="/my-blog/assets/js/33.069f064a.js"><link rel="prefetch" href="/my-blog/assets/js/34.5e3b35db.js"><link rel="prefetch" href="/my-blog/assets/js/35.0bd3d6ff.js"><link rel="prefetch" href="/my-blog/assets/js/36.fda2e78e.js"><link rel="prefetch" href="/my-blog/assets/js/37.6f1fb53e.js"><link rel="prefetch" href="/my-blog/assets/js/4.b2fd2bed.js"><link rel="prefetch" href="/my-blog/assets/js/5.9d45f87e.js"><link rel="prefetch" href="/my-blog/assets/js/6.76b9de72.js"><link rel="prefetch" href="/my-blog/assets/js/7.0366ddcd.js"><link rel="prefetch" href="/my-blog/assets/js/8.df7f4290.js"><link rel="prefetch" href="/my-blog/assets/js/9.a3521382.js">
+    <link rel="stylesheet" href="/my-blog/assets/css/0.styles.2175243c.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar" data-v-130b300a><div data-v-130b300a><div class="password-shadow password-wrapper-out" style="display:none;" data-v-25ba6db2 data-v-130b300a data-v-130b300a><h3 class="title" data-v-25ba6db2 data-v-25ba6db2>张茨一飞</h3> <p class="description" data-v-25ba6db2 data-v-25ba6db2>老夫聊发少年狂,左牵黄,右擎苍,锦帽貂裘,千骑卷平冈。为报倾城随太守,亲射虎,看孙郎。 酒酣胸胆尚开张。鬓微霜,又何妨!持节云中,何日遣冯唐?会挽雕弓如满月,西北望,射天狼。</p> <label id="box" class="inputBox" data-v-25ba6db2 data-v-25ba6db2><input type="password" value="" data-v-25ba6db2> <span data-v-25ba6db2>Konck! Knock!</span> <button data-v-25ba6db2>OK</button></label> <div class="footer" data-v-25ba6db2 data-v-25ba6db2><span data-v-25ba6db2><i class="iconfont reco-theme" data-v-25ba6db2></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-25ba6db2>vuePress-theme-reco</a></span> <span data-v-25ba6db2><i class="iconfont reco-copyright" data-v-25ba6db2></i> <a data-v-25ba6db2><span data-v-25ba6db2>张茨一飞</span>
+            
+          <span data-v-25ba6db2>2015 - </span>
+          2024
+        </a></span></div></div> <div class="hide" data-v-130b300a><header class="navbar" data-v-130b300a><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/my-blog/" class="home-link router-link-active"><img src="/my-blog/avatar.png" alt="张茨一飞" class="logo"> <span class="site-name">张茨一飞</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <!----> <nav class="nav-links can-hide"><div class="nav-item"><a href="/my-blog/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      目录
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/categories/iOS开发/" class="nav-link"><i class="undefined"></i>
+  iOS开发
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/生活/" class="nav-link"><i class="undefined"></i>
+  生活
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/面试题/" class="nav-link"><i class="undefined"></i>
+  面试题
+</a></li></ul></div></div><div class="nav-item"><a href="/my-blog/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/my-blog/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间线
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      简历
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/views/Resume/resume.html" class="nav-link"><i class="undefined"></i>
+  我的简历
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      友情链接
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://gitee.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-mayun"></i>
+  Gitee
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-130b300a></div> <aside class="sidebar" data-v-130b300a><div class="personal-info-wrapper" data-v-39576ba9 data-v-130b300a><img src="avatar.png" alt="author-avatar" class="personal-img" data-v-39576ba9> <h3 class="name" data-v-39576ba9>
+    张茨一飞
+  </h3> <div class="num" data-v-39576ba9><div data-v-39576ba9><h3 data-v-39576ba9>27</h3> <h6 data-v-39576ba9>文章</h6></div> <div data-v-39576ba9><h3 data-v-39576ba9>9</h3> <h6 data-v-39576ba9>标签</h6></div></div> <ul class="social-links" data-v-39576ba9></ul> <hr data-v-39576ba9></div> <nav class="nav-links"><div class="nav-item"><a href="/my-blog/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      目录
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/categories/iOS开发/" class="nav-link"><i class="undefined"></i>
+  iOS开发
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/生活/" class="nav-link"><i class="undefined"></i>
+  生活
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/面试题/" class="nav-link"><i class="undefined"></i>
+  面试题
+</a></li></ul></div></div><div class="nav-item"><a href="/my-blog/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/my-blog/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间线
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      简历
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/views/Resume/resume.html" class="nav-link"><i class="undefined"></i>
+  我的简历
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      友情链接
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://gitee.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-mayun"></i>
+  Gitee
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav> <!----> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-25ba6db2 data-v-130b300a><h3 class="title" data-v-25ba6db2 data-v-25ba6db2>设计模式-03.抽象工厂模式</h3> <!----> <label id="box" class="inputBox" data-v-25ba6db2 data-v-25ba6db2><input type="password" value="" data-v-25ba6db2> <span data-v-25ba6db2>Konck! Knock!</span> <button data-v-25ba6db2>OK</button></label> <div class="footer" data-v-25ba6db2 data-v-25ba6db2><span data-v-25ba6db2><i class="iconfont reco-theme" data-v-25ba6db2></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-25ba6db2>vuePress-theme-reco</a></span> <span data-v-25ba6db2><i class="iconfont reco-copyright" data-v-25ba6db2></i> <a data-v-25ba6db2><span data-v-25ba6db2>张茨一飞</span>
+            
+          <span data-v-25ba6db2>2015 - </span>
+          2024
+        </a></span></div></div> <div data-v-130b300a><main class="page"><section><div class="page-title"><h1 class="title">设计模式-03.抽象工厂模式</h1> <div data-v-f875f3fc><i class="iconfont reco-account" data-v-f875f3fc><span data-v-f875f3fc>张茨一飞</span></i> <i class="iconfont reco-date" data-v-f875f3fc><span data-v-f875f3fc>2020/3/1</span></i> <!----> <i class="tags iconfont reco-tag" data-v-f875f3fc><span class="tag-item" data-v-f875f3fc>设计模式</span></i></div></div> <div class="theme-reco-content content__default"><p>在上一篇文章中介绍了<a href="/my-blog/handbook/iOS/2020/设计模式/20200201/20200201.html">工厂方法模式</a>，其实工厂方法和抽象工厂有很多相似的地方，抽象工厂是工厂方法的升级版，只不过工厂方法模式只生产一个等级的产品，而抽象工厂模式可生产多个等级的产品，可以生产一个产品族的产品。</p> <h2 id="什么是抽象工厂"><a href="#什么是抽象工厂" class="header-anchor">#</a> 什么是抽象工厂？</h2> <div class="language- extra-class"><pre><code>提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。
+</code></pre></div><h2 id="主要角色与关系"><a href="#主要角色与关系" class="header-anchor">#</a> 主要角色与关系</h2> <ul><li>抽象工厂（Abstract Factory）：提供创建抽象产品的接口，包括多个创建产品的方法。</li> <li>具体工厂（Concrete Factory）：实现了抽象工厂的多个抽象方法，完成具体产品的创建。</li> <li>抽象产品（Product）：描述了产品的规范、功能以及特性等，在抽象工厂模式中有多个抽象产品。</li> <li>具体产品（Concrete Product）：实现了抽象产品的接口，由具体工厂来创建。</li></ul> <h2 id="uml图"><a href="#uml图" class="header-anchor">#</a> UML图</h2> <img src="/my-blog/assets/img/20200301.74f829fe.jpg" width="80%"> <h2 id="举例说明"><a href="#举例说明" class="header-anchor">#</a> 举例说明</h2> <p>我们以生产电子产品为例，因为电子产品很多，这里我们就拿电脑和手机为例，一个工厂生产一种电脑和手机，苹果工厂生产mac和iphone，华为工厂生产华为电脑和华为手机。</p> <p>1.创建抽象产品Phone,以及具体的手机产品：iPhone和HuaweiPhone；创建抽象产品Computer,以及具体的手机产品：Mac和HuaweiComputer</p> <div class="language- extra-class"><pre><code>class Computer {
+    func getName() -&gt; String {
+        return &quot;&quot;
+    }
+}
+
+class Mac: Computer {
+    override func getName() -&gt; String {
+    return &quot;Mac&quot;
+    }
+}
+
+class HuaweiComputer: Computer {
+    override func getName() -&gt; String {
+        return &quot;Huawei computer&quot;
+    }
+}
+
+class Phone {
+    func getName() -&gt; String {
+        return &quot;&quot;
+    }
+}
+
+class iPhone: Phone {
+    override func getName() -&gt; String {
+        return &quot;iPhone&quot;
+    }
+}
+
+class HuaweiPhone: Phone {
+    override func getName() -&gt; String {
+        return &quot;Huawei Phone&quot;
+    }
+}
+</code></pre></div><p>2.创建抽象工厂:ElectronicsAbstractFactory,生产手机和电脑</p> <div class="language- extra-class"><pre><code>protocol ElectronicsAbstractFactory {
+    func createPhone() -&gt; Phone
+    func createComputer() -&gt; Computer
+}
+</code></pre></div><p>3.定义具体工厂类AppleElectronicsFactory和HuaweiElectronicsFactory</p> <div class="language- extra-class"><pre><code>class AppleElectronicsFactory: ElectronicsAbstractFactory {
+    func createPhone() -&gt; Phone {
+        return iPhone();
+    }
+
+    func createComputer() -&gt; Computer {
+        return Mac()
+    }
+}
+
+class HuaweiElectronicsFactory: ElectronicsAbstractFactory {
+    func createPhone() -&gt; Phone {
+        return HuaweiPhone();
+    }
+
+    func createComputer() -&gt; Computer {
+        return HuaweiComputer()
+    }
+}
+</code></pre></div><p>4.客户端调用</p> <div class="language- extra-class"><pre><code>func testClient() {
+    let appleFactory = AppleElectronicsFactory()
+    let iphone = appleFactory.createPhone()
+    let mac = appleFactory.createComputer()
+    print(&quot;phone: \(iphone.getName()), computer: \(mac.getName())&quot;)
+
+    let huaweiFactory = HuaweiElectronicsFactory()
+    let huaweiPhone = huaweiFactory.createPhone()
+    let huaweiComputer = huaweiFactory.createComputer()
+    print(&quot;phone: \(huaweiPhone.getName()), computer: \(huaweiComputer.getName())&quot;)
+}
+</code></pre></div><h2 id="总结"><a href="#总结" class="header-anchor">#</a> 总结</h2> <h3 id="优点"><a href="#优点" class="header-anchor">#</a> 优点</h3> <ul><li>易于交换产品系列，由于具体的工厂类，例如let appleFactory = AppleElectronicsFactory(),在一个应用中只需要在初始化的时候出现一次，故想要改变一个具体的工厂就很容易了。</li> <li>让具体的创建实例的过程与客户端分离，客户端是通过抽象接口操纵实例的，产品的具体类也被具体工厂的实现分离，因此具体的产品不会出现在客户端，减少了代码的耦合。</li></ul> <h3 id="缺点"><a href="#缺点" class="header-anchor">#</a> 缺点</h3> <p>当需要添加一个新的产品时，比如Watch，至少需要增加三个类:Watch抽象类、iWatch、HuaweiWatch,同时还需要修改ElectronicsAbstractFactory、AppleElectronicsFactory、HuaweiElectronicsFactory，违背了开闭原则。</p> <p><a href="/my-blog/handbook/iOS/2020/设计模式/20200401/20200401.html">建造者模式</a></p></div></section> <footer class="page-edit"><!----> <!----></footer> <!----> <div class="comments-wrapper"><!----></div> <ul class="side-bar sub-sidebar-wrapper" style="width:12rem;" data-v-cb1513f6><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20200301/20200301.html#什么是抽象工厂" class="sidebar-link reco-side-什么是抽象工厂" data-v-cb1513f6>什么是抽象工厂？</a></li><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20200301/20200301.html#主要角色与关系" class="sidebar-link reco-side-主要角色与关系" data-v-cb1513f6>主要角色与关系</a></li><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20200301/20200301.html#uml图" class="sidebar-link reco-side-uml图" data-v-cb1513f6>UML图</a></li><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20200301/20200301.html#举例说明" class="sidebar-link reco-side-举例说明" data-v-cb1513f6>举例说明</a></li><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20200301/20200301.html#总结" class="sidebar-link reco-side-总结" data-v-cb1513f6>总结</a></li><li class="level-3" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20200301/20200301.html#优点" class="sidebar-link reco-side-优点" data-v-cb1513f6>优点</a></li><li class="level-3" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20200301/20200301.html#缺点" class="sidebar-link reco-side-缺点" data-v-cb1513f6>缺点</a></li></ul></main> <!----></div></div></div></div><div class="global-ui"><!----><!----><canvas id="vuepress-canvas-cursor"></canvas><!----><div class="RibbonAnimation"></div></div></div>
+    <script src="/my-blog/assets/js/app.83219bff.js" defer></script><script src="/my-blog/assets/js/3.e68ab5ce.js" defer></script><script src="/my-blog/assets/js/1.768e4641.js" defer></script><script src="/my-blog/assets/js/16.14234636.js" defer></script>
+  </body>
+</html>

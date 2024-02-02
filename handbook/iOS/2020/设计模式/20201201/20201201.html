@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>设计模式-11.代理模式 | 张茨一飞</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/my-blog/avatar.png">
+    <meta name="description" content="老夫聊发少年狂,左牵黄,右擎苍,锦帽貂裘,千骑卷平冈。为报倾城随太守,亲射虎,看孙郎。 酒酣胸胆尚开张。鬓微霜,又何妨!持节云中,何日遣冯唐?会挽雕弓如满月,西北望,射天狼。">
+    
+    <link rel="preload" href="/my-blog/assets/css/0.styles.2175243c.css" as="style"><link rel="preload" href="/my-blog/assets/js/app.83219bff.js" as="script"><link rel="preload" href="/my-blog/assets/js/3.e68ab5ce.js" as="script"><link rel="preload" href="/my-blog/assets/js/1.768e4641.js" as="script"><link rel="preload" href="/my-blog/assets/js/25.d72b23bf.js" as="script"><link rel="prefetch" href="/my-blog/assets/js/10.c206caee.js"><link rel="prefetch" href="/my-blog/assets/js/11.9f4ed03b.js"><link rel="prefetch" href="/my-blog/assets/js/12.9c1daaff.js"><link rel="prefetch" href="/my-blog/assets/js/13.508ca0aa.js"><link rel="prefetch" href="/my-blog/assets/js/14.f2709fef.js"><link rel="prefetch" href="/my-blog/assets/js/15.fe2625e7.js"><link rel="prefetch" href="/my-blog/assets/js/16.14234636.js"><link rel="prefetch" href="/my-blog/assets/js/17.dac017be.js"><link rel="prefetch" href="/my-blog/assets/js/18.412e2895.js"><link rel="prefetch" href="/my-blog/assets/js/19.2fdd618b.js"><link rel="prefetch" href="/my-blog/assets/js/20.c12b7107.js"><link rel="prefetch" href="/my-blog/assets/js/21.9f012cff.js"><link rel="prefetch" href="/my-blog/assets/js/22.9bbde15a.js"><link rel="prefetch" href="/my-blog/assets/js/23.fae03859.js"><link rel="prefetch" href="/my-blog/assets/js/24.9c2773c9.js"><link rel="prefetch" href="/my-blog/assets/js/26.02e61b2e.js"><link rel="prefetch" href="/my-blog/assets/js/27.85eafcc1.js"><link rel="prefetch" href="/my-blog/assets/js/28.364da631.js"><link rel="prefetch" href="/my-blog/assets/js/29.b0ad14d8.js"><link rel="prefetch" href="/my-blog/assets/js/30.333ca256.js"><link rel="prefetch" href="/my-blog/assets/js/31.206c8a40.js"><link rel="prefetch" href="/my-blog/assets/js/32.7fb99002.js"><link rel="prefetch" href="/my-blog/assets/js/33.069f064a.js"><link rel="prefetch" href="/my-blog/assets/js/34.5e3b35db.js"><link rel="prefetch" href="/my-blog/assets/js/35.0bd3d6ff.js"><link rel="prefetch" href="/my-blog/assets/js/36.fda2e78e.js"><link rel="prefetch" href="/my-blog/assets/js/37.6f1fb53e.js"><link rel="prefetch" href="/my-blog/assets/js/4.b2fd2bed.js"><link rel="prefetch" href="/my-blog/assets/js/5.9d45f87e.js"><link rel="prefetch" href="/my-blog/assets/js/6.76b9de72.js"><link rel="prefetch" href="/my-blog/assets/js/7.0366ddcd.js"><link rel="prefetch" href="/my-blog/assets/js/8.df7f4290.js"><link rel="prefetch" href="/my-blog/assets/js/9.a3521382.js">
+    <link rel="stylesheet" href="/my-blog/assets/css/0.styles.2175243c.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar" data-v-130b300a><div data-v-130b300a><div class="password-shadow password-wrapper-out" style="display:none;" data-v-25ba6db2 data-v-130b300a data-v-130b300a><h3 class="title" data-v-25ba6db2 data-v-25ba6db2>张茨一飞</h3> <p class="description" data-v-25ba6db2 data-v-25ba6db2>老夫聊发少年狂,左牵黄,右擎苍,锦帽貂裘,千骑卷平冈。为报倾城随太守,亲射虎,看孙郎。 酒酣胸胆尚开张。鬓微霜,又何妨!持节云中,何日遣冯唐?会挽雕弓如满月,西北望,射天狼。</p> <label id="box" class="inputBox" data-v-25ba6db2 data-v-25ba6db2><input type="password" value="" data-v-25ba6db2> <span data-v-25ba6db2>Konck! Knock!</span> <button data-v-25ba6db2>OK</button></label> <div class="footer" data-v-25ba6db2 data-v-25ba6db2><span data-v-25ba6db2><i class="iconfont reco-theme" data-v-25ba6db2></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-25ba6db2>vuePress-theme-reco</a></span> <span data-v-25ba6db2><i class="iconfont reco-copyright" data-v-25ba6db2></i> <a data-v-25ba6db2><span data-v-25ba6db2>张茨一飞</span>
+            
+          <span data-v-25ba6db2>2015 - </span>
+          2024
+        </a></span></div></div> <div class="hide" data-v-130b300a><header class="navbar" data-v-130b300a><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/my-blog/" class="home-link router-link-active"><img src="/my-blog/avatar.png" alt="张茨一飞" class="logo"> <span class="site-name">张茨一飞</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <!----> <nav class="nav-links can-hide"><div class="nav-item"><a href="/my-blog/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      目录
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/categories/iOS开发/" class="nav-link"><i class="undefined"></i>
+  iOS开发
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/生活/" class="nav-link"><i class="undefined"></i>
+  生活
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/面试题/" class="nav-link"><i class="undefined"></i>
+  面试题
+</a></li></ul></div></div><div class="nav-item"><a href="/my-blog/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/my-blog/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间线
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      简历
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/views/Resume/resume.html" class="nav-link"><i class="undefined"></i>
+  我的简历
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      友情链接
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://gitee.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-mayun"></i>
+  Gitee
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-130b300a></div> <aside class="sidebar" data-v-130b300a><div class="personal-info-wrapper" data-v-39576ba9 data-v-130b300a><img src="avatar.png" alt="author-avatar" class="personal-img" data-v-39576ba9> <h3 class="name" data-v-39576ba9>
+    张茨一飞
+  </h3> <div class="num" data-v-39576ba9><div data-v-39576ba9><h3 data-v-39576ba9>27</h3> <h6 data-v-39576ba9>文章</h6></div> <div data-v-39576ba9><h3 data-v-39576ba9>9</h3> <h6 data-v-39576ba9>标签</h6></div></div> <ul class="social-links" data-v-39576ba9></ul> <hr data-v-39576ba9></div> <nav class="nav-links"><div class="nav-item"><a href="/my-blog/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      目录
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/categories/iOS开发/" class="nav-link"><i class="undefined"></i>
+  iOS开发
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/生活/" class="nav-link"><i class="undefined"></i>
+  生活
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/面试题/" class="nav-link"><i class="undefined"></i>
+  面试题
+</a></li></ul></div></div><div class="nav-item"><a href="/my-blog/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/my-blog/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间线
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      简历
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/views/Resume/resume.html" class="nav-link"><i class="undefined"></i>
+  我的简历
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      友情链接
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://gitee.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-mayun"></i>
+  Gitee
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav> <!----> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-25ba6db2 data-v-130b300a><h3 class="title" data-v-25ba6db2 data-v-25ba6db2>设计模式-11.代理模式</h3> <!----> <label id="box" class="inputBox" data-v-25ba6db2 data-v-25ba6db2><input type="password" value="" data-v-25ba6db2> <span data-v-25ba6db2>Konck! Knock!</span> <button data-v-25ba6db2>OK</button></label> <div class="footer" data-v-25ba6db2 data-v-25ba6db2><span data-v-25ba6db2><i class="iconfont reco-theme" data-v-25ba6db2></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-25ba6db2>vuePress-theme-reco</a></span> <span data-v-25ba6db2><i class="iconfont reco-copyright" data-v-25ba6db2></i> <a data-v-25ba6db2><span data-v-25ba6db2>张茨一飞</span>
+            
+          <span data-v-25ba6db2>2015 - </span>
+          2024
+        </a></span></div></div> <div data-v-130b300a><main class="page"><section><div class="page-title"><h1 class="title">设计模式-11.代理模式</h1> <div data-v-f875f3fc><i class="iconfont reco-account" data-v-f875f3fc><span data-v-f875f3fc>张茨一飞</span></i> <i class="iconfont reco-date" data-v-f875f3fc><span data-v-f875f3fc>2020/12/1</span></i> <!----> <i class="tags iconfont reco-tag" data-v-f875f3fc><span class="tag-item" data-v-f875f3fc>设计模式</span></i></div></div> <div class="theme-reco-content content__default"><p><a href="/my-blog/handbook/iOS/2020/设计模式/20201101/20201101.html">单例模式</a></p> <h2 id="_1-什么是代理模式"><a href="#_1-什么是代理模式" class="header-anchor">#</a> 1. 什么是代理模式</h2> <p>比如我们一般登陆一些会员制的网站，通常一些功能只有会员才能访问，普通用户只能访问一些基础的内容，付费内容则需要充值会员才能访问。那么和代理模式有啥关系，代理的一个常见用处是作为一个轻量的替身对象，它运去客户端首先访问一些廉价的信息或功能，知道充值会员才提供付费的资源。因此代理在一开始向用户提供试用会员资格，当用户愿意为真正的高价的会员资格付费的时候，代理会敞开大门让用户访问付费会员的功能。
+信用卡是银行账户的代理， 银行账户则是一大捆现金的代理。 它们都实现了同样的接口， 均可用于进行支付。 消费者会非常满意， 因为不必随身携带大量现金； 商店老板同样会十分高兴， 因为交易收入能以电子化的方式进入商店的银行账户中， 无需担心存款时出现现金丢失或被抢劫的情况。
+通常带路模式有以下一些代理</p> <ul><li><p>远程代理：为位于不同地址空间或网络上的对象提供本地代表。</p></li> <li><p>虚拟代理：更具需要创建重型对象。</p></li> <li><p>保护代理： 更具各种访问权限控制原对象的访问</p></li> <li><p>智能引用代理： 通过对真正对象的引用进行计数来管理内存。也用于锁定真正对象，让其他对象不能对其进行修改。</p> <div class="language- extra-class"><pre><code>  代理模式：为其他对象提供一种代理以控制对这个对象的访问。
+</code></pre></div></li></ul> <h2 id="_2-什么时候使用代理模式"><a href="#_2-什么时候使用代理模式" class="header-anchor">#</a> 2. 什么时候使用代理模式</h2> <p>下面的情形可以考虑使用代理模式</p> <div class="language- extra-class"><pre><code>    需要一个远程代理，为位于不同地址空间或网络中的对象提供本地代表
+    需要一个虚拟代理，来根据要求创建重型的对象。
+    需要一个保护代理，来根据不同访问权限控制对原对象的访问。
+    需要一个智能引用代理，通过对实体对象的引用进行计算来管理内存。
+</code></pre></div><h2 id="_3-代码展示"><a href="#_3-代码展示" class="header-anchor">#</a> 3. 代码展示</h2> <div class="language- extra-class"><pre><code>    import XCTest
+
+    /// The Subject interface declares common operations for both RealSubject and
+    /// the Proxy. As long as the client works with RealSubject using this
+    /// interface, you'll be able to pass it a proxy instead of a real subject.
+    protocol Subject {
+        func request()
+    }
+
+    /// The RealSubject contains some core business logic. Usually, RealSubjects are
+    /// capable of doing some useful work which may also be very slow or sensitive -
+    /// e.g. correcting input data. A Proxy can solve these issues without any
+    /// changes to the RealSubject's code.
+    class RealSubject: Subject {
+
+        func request() {
+            print(&quot;RealSubject: Handling request.&quot;)
+        }
+    }
+
+    /// The Proxy has an interface identical to the RealSubject.
+    class Proxy: Subject {
+
+        private var realSubject: RealSubject
+
+        /// The Proxy maintains a reference to an object of the RealSubject class.
+        /// It can be either lazy-loaded or passed to the Proxy by the client.
+        init(_ realSubject: RealSubject) {
+            self.realSubject = realSubject
+        }
+
+        /// The most common applications of the Proxy pattern are lazy loading,
+        /// caching, controlling the access, logging, etc. A Proxy can perform one
+        /// of these things and then, depending on the result, pass the execution to
+        /// the same method in a linked RealSubject object.
+        func request() {
+
+            if (checkAccess()) {
+                realSubject.request()
+                logAccess()
+            }
+        }
+
+        private func checkAccess() -&gt; Bool {
+
+            /// Some real checks should go here.
+
+            print(&quot;Proxy: Checking access prior to firing a real request.&quot;)
+
+            return true
+        }
+
+        private func logAccess() {
+            print(&quot;Proxy: Logging the time of request.&quot;)
+        }
+    }
+
+    /// The client code is supposed to work with all objects (both subjects and
+    /// proxies) via the Subject interface in order to support both real subjects
+    /// and proxies. In real life, however, clients mostly work with their real
+    /// subjects directly. In this case, to implement the pattern more easily, you
+    /// can extend your proxy from the real subject's class.
+    class Client {
+        // ...
+        static func clientCode(subject: Subject) {
+            // ...
+            print(subject.request())
+            // ...
+        }
+    // ...
+    }
+
+    /// Let's see how it all works together.
+    class ProxyConceptual: XCTestCase {
+
+        func test() {
+            print(&quot;Client: Executing the client code with a real subject:&quot;)
+            let realSubject = RealSubject()
+            Client.clientCode(subject: realSubject)
+
+            print(&quot;\nClient: Executing the same client code with a proxy:&quot;)
+            let proxy = Proxy(realSubject)
+            Client.clientCode(subject: proxy)
+        }
+    }
+</code></pre></div><h2 id="_4-小结"><a href="#_4-小结" class="header-anchor">#</a> 4. 小结</h2> <p>在iOS中我们有一个NSProxy类，NSProxy类实现了NSObject协议，所以NSProxy对象实际上也是NSObject类型。NSProxy类是一个抽象基类。代理模式会将所有实际工作委派给一些其他对象。 除非代理是某个服务的子类， 否则每个代理方法最后都应该引用一个服务对象。</p></div></section> <footer class="page-edit"><!----> <!----></footer> <!----> <div class="comments-wrapper"><!----></div> <ul class="side-bar sub-sidebar-wrapper" style="width:12rem;" data-v-cb1513f6><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20201201/20201201.html#_1-什么是代理模式" class="sidebar-link reco-side-_1-什么是代理模式" data-v-cb1513f6>1. 什么是代理模式</a></li><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20201201/20201201.html#_2-什么时候使用代理模式" class="sidebar-link reco-side-_2-什么时候使用代理模式" data-v-cb1513f6>2. 什么时候使用代理模式</a></li><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20201201/20201201.html#_3-代码展示" class="sidebar-link reco-side-_3-代码展示" data-v-cb1513f6>3. 代码展示</a></li><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20201201/20201201.html#_4-小结" class="sidebar-link reco-side-_4-小结" data-v-cb1513f6>4. 小结</a></li></ul></main> <!----></div></div></div></div><div class="global-ui"><!----><!----><canvas id="vuepress-canvas-cursor"></canvas><!----><div class="RibbonAnimation"></div></div></div>
+    <script src="/my-blog/assets/js/app.83219bff.js" defer></script><script src="/my-blog/assets/js/3.e68ab5ce.js" defer></script><script src="/my-blog/assets/js/1.768e4641.js" defer></script><script src="/my-blog/assets/js/25.d72b23bf.js" defer></script>
+  </body>
+</html>

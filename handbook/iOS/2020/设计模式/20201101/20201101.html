@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>设计模式-10.单例模式 | 张茨一飞</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/my-blog/avatar.png">
+    <meta name="description" content="老夫聊发少年狂,左牵黄,右擎苍,锦帽貂裘,千骑卷平冈。为报倾城随太守,亲射虎,看孙郎。 酒酣胸胆尚开张。鬓微霜,又何妨!持节云中,何日遣冯唐?会挽雕弓如满月,西北望,射天狼。">
+    
+    <link rel="preload" href="/my-blog/assets/css/0.styles.2175243c.css" as="style"><link rel="preload" href="/my-blog/assets/js/app.83219bff.js" as="script"><link rel="preload" href="/my-blog/assets/js/3.e68ab5ce.js" as="script"><link rel="preload" href="/my-blog/assets/js/1.768e4641.js" as="script"><link rel="preload" href="/my-blog/assets/js/7.0366ddcd.js" as="script"><link rel="prefetch" href="/my-blog/assets/js/10.c206caee.js"><link rel="prefetch" href="/my-blog/assets/js/11.9f4ed03b.js"><link rel="prefetch" href="/my-blog/assets/js/12.9c1daaff.js"><link rel="prefetch" href="/my-blog/assets/js/13.508ca0aa.js"><link rel="prefetch" href="/my-blog/assets/js/14.f2709fef.js"><link rel="prefetch" href="/my-blog/assets/js/15.fe2625e7.js"><link rel="prefetch" href="/my-blog/assets/js/16.14234636.js"><link rel="prefetch" href="/my-blog/assets/js/17.dac017be.js"><link rel="prefetch" href="/my-blog/assets/js/18.412e2895.js"><link rel="prefetch" href="/my-blog/assets/js/19.2fdd618b.js"><link rel="prefetch" href="/my-blog/assets/js/20.c12b7107.js"><link rel="prefetch" href="/my-blog/assets/js/21.9f012cff.js"><link rel="prefetch" href="/my-blog/assets/js/22.9bbde15a.js"><link rel="prefetch" href="/my-blog/assets/js/23.fae03859.js"><link rel="prefetch" href="/my-blog/assets/js/24.9c2773c9.js"><link rel="prefetch" href="/my-blog/assets/js/25.d72b23bf.js"><link rel="prefetch" href="/my-blog/assets/js/26.02e61b2e.js"><link rel="prefetch" href="/my-blog/assets/js/27.85eafcc1.js"><link rel="prefetch" href="/my-blog/assets/js/28.364da631.js"><link rel="prefetch" href="/my-blog/assets/js/29.b0ad14d8.js"><link rel="prefetch" href="/my-blog/assets/js/30.333ca256.js"><link rel="prefetch" href="/my-blog/assets/js/31.206c8a40.js"><link rel="prefetch" href="/my-blog/assets/js/32.7fb99002.js"><link rel="prefetch" href="/my-blog/assets/js/33.069f064a.js"><link rel="prefetch" href="/my-blog/assets/js/34.5e3b35db.js"><link rel="prefetch" href="/my-blog/assets/js/35.0bd3d6ff.js"><link rel="prefetch" href="/my-blog/assets/js/36.fda2e78e.js"><link rel="prefetch" href="/my-blog/assets/js/37.6f1fb53e.js"><link rel="prefetch" href="/my-blog/assets/js/4.b2fd2bed.js"><link rel="prefetch" href="/my-blog/assets/js/5.9d45f87e.js"><link rel="prefetch" href="/my-blog/assets/js/6.76b9de72.js"><link rel="prefetch" href="/my-blog/assets/js/8.df7f4290.js"><link rel="prefetch" href="/my-blog/assets/js/9.a3521382.js">
+    <link rel="stylesheet" href="/my-blog/assets/css/0.styles.2175243c.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar" data-v-130b300a><div data-v-130b300a><div class="password-shadow password-wrapper-out" style="display:none;" data-v-25ba6db2 data-v-130b300a data-v-130b300a><h3 class="title" data-v-25ba6db2 data-v-25ba6db2>张茨一飞</h3> <p class="description" data-v-25ba6db2 data-v-25ba6db2>老夫聊发少年狂,左牵黄,右擎苍,锦帽貂裘,千骑卷平冈。为报倾城随太守,亲射虎,看孙郎。 酒酣胸胆尚开张。鬓微霜,又何妨!持节云中,何日遣冯唐?会挽雕弓如满月,西北望,射天狼。</p> <label id="box" class="inputBox" data-v-25ba6db2 data-v-25ba6db2><input type="password" value="" data-v-25ba6db2> <span data-v-25ba6db2>Konck! Knock!</span> <button data-v-25ba6db2>OK</button></label> <div class="footer" data-v-25ba6db2 data-v-25ba6db2><span data-v-25ba6db2><i class="iconfont reco-theme" data-v-25ba6db2></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-25ba6db2>vuePress-theme-reco</a></span> <span data-v-25ba6db2><i class="iconfont reco-copyright" data-v-25ba6db2></i> <a data-v-25ba6db2><span data-v-25ba6db2>张茨一飞</span>
+            
+          <span data-v-25ba6db2>2015 - </span>
+          2024
+        </a></span></div></div> <div class="hide" data-v-130b300a><header class="navbar" data-v-130b300a><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/my-blog/" class="home-link router-link-active"><img src="/my-blog/avatar.png" alt="张茨一飞" class="logo"> <span class="site-name">张茨一飞</span></a> <div class="links"><div class="color-picker"><a class="color-button"><i class="iconfont reco-color"></i></a> <div class="color-picker-menu" style="display:none;"><div class="mode-options"><h4 class="title">Choose mode</h4> <ul class="color-mode-options"><li class="dark">dark</li><li class="auto active">auto</li><li class="light">light</li></ul></div></div></div> <!----> <nav class="nav-links can-hide"><div class="nav-item"><a href="/my-blog/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      目录
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/categories/iOS开发/" class="nav-link"><i class="undefined"></i>
+  iOS开发
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/生活/" class="nav-link"><i class="undefined"></i>
+  生活
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/面试题/" class="nav-link"><i class="undefined"></i>
+  面试题
+</a></li></ul></div></div><div class="nav-item"><a href="/my-blog/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/my-blog/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间线
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      简历
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/views/Resume/resume.html" class="nav-link"><i class="undefined"></i>
+  我的简历
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      友情链接
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://gitee.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-mayun"></i>
+  Gitee
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask" data-v-130b300a></div> <aside class="sidebar" data-v-130b300a><div class="personal-info-wrapper" data-v-39576ba9 data-v-130b300a><img src="avatar.png" alt="author-avatar" class="personal-img" data-v-39576ba9> <h3 class="name" data-v-39576ba9>
+    张茨一飞
+  </h3> <div class="num" data-v-39576ba9><div data-v-39576ba9><h3 data-v-39576ba9>27</h3> <h6 data-v-39576ba9>文章</h6></div> <div data-v-39576ba9><h3 data-v-39576ba9>9</h3> <h6 data-v-39576ba9>标签</h6></div></div> <ul class="social-links" data-v-39576ba9></ul> <hr data-v-39576ba9></div> <nav class="nav-links"><div class="nav-item"><a href="/my-blog/" class="nav-link"><i class="iconfont reco-home"></i>
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-category"></i>
+      目录
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/categories/iOS开发/" class="nav-link"><i class="undefined"></i>
+  iOS开发
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/生活/" class="nav-link"><i class="undefined"></i>
+  生活
+</a></li><li class="dropdown-item"><!----> <a href="/my-blog/categories/面试题/" class="nav-link"><i class="undefined"></i>
+  面试题
+</a></li></ul></div></div><div class="nav-item"><a href="/my-blog/tag/" class="nav-link"><i class="iconfont reco-tag"></i>
+  标签
+</a></div><div class="nav-item"><a href="/my-blog/timeline/" class="nav-link"><i class="iconfont reco-date"></i>
+  时间线
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      简历
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/my-blog/views/Resume/resume.html" class="nav-link"><i class="undefined"></i>
+  我的简历
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title"><i class="iconfont reco-message"></i>
+      友情链接
+    </span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="https://gitee.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-mayun"></i>
+  Gitee
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li><li class="dropdown-item"><!----> <a href="https://github.com/zhangys2007" target="_blank" rel="noopener noreferrer" class="nav-link external"><i class="iconfont reco-github"></i>
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></li></ul></div></div> <!----></nav> <!----> </aside> <div class="password-shadow password-wrapper-in" style="display:none;" data-v-25ba6db2 data-v-130b300a><h3 class="title" data-v-25ba6db2 data-v-25ba6db2>设计模式-10.单例模式</h3> <!----> <label id="box" class="inputBox" data-v-25ba6db2 data-v-25ba6db2><input type="password" value="" data-v-25ba6db2> <span data-v-25ba6db2>Konck! Knock!</span> <button data-v-25ba6db2>OK</button></label> <div class="footer" data-v-25ba6db2 data-v-25ba6db2><span data-v-25ba6db2><i class="iconfont reco-theme" data-v-25ba6db2></i> <a target="blank" href="https://vuepress-theme-reco.recoluan.com" data-v-25ba6db2>vuePress-theme-reco</a></span> <span data-v-25ba6db2><i class="iconfont reco-copyright" data-v-25ba6db2></i> <a data-v-25ba6db2><span data-v-25ba6db2>张茨一飞</span>
+            
+          <span data-v-25ba6db2>2015 - </span>
+          2024
+        </a></span></div></div> <div data-v-130b300a><main class="page"><section><div class="page-title"><h1 class="title">设计模式-10.单例模式</h1> <div data-v-f875f3fc><i class="iconfont reco-account" data-v-f875f3fc><span data-v-f875f3fc>张茨一飞</span></i> <i class="iconfont reco-date" data-v-f875f3fc><span data-v-f875f3fc>2020/11/1</span></i> <!----> <i class="tags iconfont reco-tag" data-v-f875f3fc><span class="tag-item" data-v-f875f3fc>设计模式</span></i></div></div> <div class="theme-reco-content content__default"><p><a href="/my-blog/handbook/iOS/2020/设计模式/20200701/20200701.html">命令模式、中介者模式以及组合模式</a></p> <p>单例在不同的语言中实现方式可能不一定完全相同，但其宗旨应该是一样的:单例类在整个程序运行期间有且仅有一个实例；所以,在开发过程中，根据需求合理使用单例类；</p> <h2 id="单例的优缺点"><a href="#单例的优缺点" class="header-anchor">#</a> 单例的优缺点</h2> <h3 id="优点"><a href="#优点" class="header-anchor">#</a> 优点</h3> <ul><li>一个类只被实例化一次，提供了对唯一实例的受控访问</li> <li>节省系统资源</li> <li>允许可变数目的实例</li></ul> <p>因为其上面的特点,对于项目中的个别场景的传值,存储状态等等更加方便</p> <h3 id="缺点"><a href="#缺点" class="header-anchor">#</a> 缺点</h3> <ul><li>一个类只有一个对象，可能造成责任过重，在一定程度上违背了单一职责原则</li> <li>由于单例模式中没有抽象层，因此单例类的扩展有很大困难</li> <li>滥用单例将带来一些负面问题，如：为了节省资源将数据库连接池对象设计为单例类，可能会导致共享连接池对象的程序过多而出现连接池溢出；如果实例化的对象长时间不被利用，系统会认为是垃圾而被回收，这将导致对象状态的丢失</li> <li>单例实例一旦创建,对象指针是保存在静态区的,那么在堆区分配空间只有在应用程序终止后才会被释放</li></ul> <h2 id="单例的实现"><a href="#单例的实现" class="header-anchor">#</a> 单例的实现</h2> <h3 id="objective-c"><a href="#objective-c" class="header-anchor">#</a> Objective-C</h3> <h4 id="第一种方式"><a href="#第一种方式" class="header-anchor">#</a> 第一种方式</h4> <ul><li><p>创建单例类</p> <div class="language- extra-class"><pre><code>  + (instancetype)shareInstance { 
+      static AppManager *instance = nil ; 
+      static dispatch_once_t onceToken; 
+      dispatch_once(&amp;onceToken, ^{ 
+          if (instance == nil) { 
+              instance = [[AppManager alloc] init]; 
+          } 
+      }); 
+      return instance; 
+  }
+</code></pre></div></li> <li><p>防止alloc，init，new引起的错误</p> <div class="language- extra-class"><pre><code>  // 防止外部调用alloc 或者 new
+  + (instancetype)allocWithZone:(struct _NSZone *)zone {
+      return [AppManager shareInstance];
+  }
+</code></pre></div></li> <li><p>防止NSCopying引起的错误</p> <div class="language- extra-class"><pre><code>  // 防止外部调用copy
+  - (id)copyWithZone:(nullable NSZone *)zone {
+      return [AppManager shareInstance];
+  }
+</code></pre></div></li> <li><p>防止mutableCopy引起的错误</p> <div class="language- extra-class"><pre><code>  // 防止外部调用mutableCopy
+  - (id)mutableCopyWithZone:(nullable NSZone *)zone {
+      return [AppManager shareInstance];
+  }
+</code></pre></div></li></ul> <h4 id="第二种方式"><a href="#第二种方式" class="header-anchor">#</a> 第二种方式</h4> <p>创建之后，我们直接禁止外部使用init，new等操作;
+我们在单例的.h文件中添加一下代码：</p> <div class="language- extra-class"><pre><code>    - (instancetype)init NS_UNAVAILABLE;
+    + (instancetype)new NS_UNAVAILABLE;
+    - (id)copy NS_UNAVAILABLE; // 没有遵循协议可以不写
+    - (id)mutableCopy NS_UNAVAILABLE; // 没有遵循协议可以不写
+</code></pre></div><h3 id="swift"><a href="#swift" class="header-anchor">#</a> Swift</h3> <div class="language- extra-class"><pre><code>    class AppManager: NSObject {
+        static let sharedInstance = AppManager()
+        // 私有化构造方法，防止其他对象使用这个类的默认方法‘()’来进行初始化
+        private override init() {}
+    }
+</code></pre></div><h3 id="注意事项"><a href="#注意事项" class="header-anchor">#</a> 注意事项</h3> <ul><li>单例必须是唯一的，所以它才被称为单例。在一个应用程序的生命周期里，有且只有一个实例存在。单例的存在给我们提供了一个唯一的全局状态。比如NSNotificaton,Application,NSuserDefault都是单例.</li> <li>为了保持一个单例的唯一性，单例的构造器必须是私有的。这防止其他对象也能创建出单例类的实例。</li> <li>为了确保单例在应用程序的整个生命周期是唯一的，它就必须是线程安全的。简单来说，如果你写单例的方式是错误的，就有可能会有两个线程尝试在同一时间初始化同一个单例，这样就有潜在的风险得到两个不同额单例。这就意味着我们需要用到GCD的dispatch_once来确保初始化单例的代码在运行时只执行一次。</li></ul> <p>那么为什么用Swift创建的单例没有看到dispatch_once呢？
+根据官方文档中的说明：</p> <img src="/my-blog/assets/img/2020100101.0dd25f0f.png" width="100%"> <p>全局变量的延迟构造器(也适用于结构和枚举的静态成员)在第一次访问全局变量时运行，并作为dispatch_once启动，以确保初始化是原子的。这使得在代码中使用dispatch_once有了一个很酷的方法:只要声明一个带有初始化式的全局变量并将其标记为private即可。</p> <h2 id="单例dispatch-once的底层原理"><a href="#单例dispatch-once的底层原理" class="header-anchor">#</a> 单例dispatch_once的底层原理</h2> <p>我们经常写单例的实现时，经常会这么写：</p> <div class="language- extra-class"><pre><code>+ (instancetype)shareInstance {
+    static XXXXX *instance = nil ;
+    static dispatch_once_t onceToken;
+    dispatch_once(&amp;onceToken, ^{
+        if (instance == nil) {
+            instance = [[XXXXX alloc] init];
+        }
+    });
+    return instance;
+}
+</code></pre></div><p>那么dispatch_once是如何实现的呢？我们来看一下：</p> <img src="/my-blog/assets/img/2020100102.3494cb9f.jpg" width="100%"> <p>我们发现dispatch_once就是通过dispatch_once_f这个函数来实现单例类的；</p> <ul><li>val就是&amp;onceToken，也就是全局静态变量;(作为条件控制来使用)</li> <li>block是要执行的任务；</li> <li>_dispatch_Block_invoke(block)是对任务的封装；</li></ul> <p>接下来，我们来看一下dispatch_once_f的具体实现:</p> <img src="/my-blog/assets/img/2020100103.96c7bb7b.jpg" width="100%"> <ul><li>dispatch_once_gate_t：将val封装成一个开关，进行强制类型转换为l；</li> <li>_dispatch_once_gate_tryenter(l)：我们第一次创建时，将会执行至此；</li></ul> <p>进入_dispatch_once_gate_tryenter函数内部：</p> <img src="/my-blog/assets/img/2020100104.6c9d4326.jpg" width="100%"> <ul><li>os_atomic_cmpxchg进行原子操作，进行锁的处理，说明其实有线程控制的;</li> <li>_dispatch_lock_value_for_self当前队列中的线程空间的锁，防止多线程（单例类的线程安全问题）；</li></ul> <p>接下来进入_dispatch_once_callout函数：</p> <img src="/my-blog/assets/img/2020100105.5ffd6e58.jpg" width="100%"> <ul><li>函数_dispatch_client_callout进行任务ctxt的执行；</li> <li>_dispatch_once_gate_broadcast：任务执行完毕之后进行广播；</li></ul> <img src="/my-blog/assets/img/2020100106.613542d2.jpg" width="100%"> <p>两个宏定义，会有一个执行；我们针对_dispatch_once_mark_done分析一下：</p> <img src="/my-blog/assets/img/2020100107.9c6a1408.jpg" width="100%"> <p>将dog设置dgo_once为DLOCK_ONCE_DONE;
+然后在dispatch_once_f的实现中：</p> <img src="/my-blog/assets/img/2020100108.96f96571.jpg" width="100%"> <p>第二次进来时，判断dgo_once为DLOCK_ONCE_DONE的话直接return；
+如果没有设置DLOCK_ONCE_DONE，并且_dispatch_once_gate_tryenter被上锁，那么将会执行_dispatch_once_wait(l)，进行无限期等待，等待开锁.</p> <p><a href="/my-blog/handbook/iOS/2020/设计模式/20201201/20201201.html">代理模式</a></p></div></section> <footer class="page-edit"><!----> <!----></footer> <!----> <div class="comments-wrapper"><!----></div> <ul class="side-bar sub-sidebar-wrapper" style="width:12rem;" data-v-cb1513f6><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20201101/20201101.html#单例的优缺点" class="sidebar-link reco-side-单例的优缺点" data-v-cb1513f6>单例的优缺点</a></li><li class="level-3" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20201101/20201101.html#优点" class="sidebar-link reco-side-优点" data-v-cb1513f6>优点</a></li><li class="level-3" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20201101/20201101.html#缺点" class="sidebar-link reco-side-缺点" data-v-cb1513f6>缺点</a></li><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20201101/20201101.html#单例的实现" class="sidebar-link reco-side-单例的实现" data-v-cb1513f6>单例的实现</a></li><li class="level-3" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20201101/20201101.html#objective-c" class="sidebar-link reco-side-objective-c" data-v-cb1513f6>Objective-C</a></li><li class="level-3" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20201101/20201101.html#swift" class="sidebar-link reco-side-swift" data-v-cb1513f6>Swift</a></li><li class="level-3" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20201101/20201101.html#注意事项" class="sidebar-link reco-side-注意事项" data-v-cb1513f6>注意事项</a></li><li class="level-2" data-v-cb1513f6><a href="/my-blog/handbook/iOS/2020/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/20201101/20201101.html#单例dispatch-once的底层原理" class="sidebar-link reco-side-单例dispatch-once的底层原理" data-v-cb1513f6>单例dispatch_once的底层原理</a></li></ul></main> <!----></div></div></div></div><div class="global-ui"><!----><!----><canvas id="vuepress-canvas-cursor"></canvas><!----><div class="RibbonAnimation"></div></div></div>
+    <script src="/my-blog/assets/js/app.83219bff.js" defer></script><script src="/my-blog/assets/js/3.e68ab5ce.js" defer></script><script src="/my-blog/assets/js/1.768e4641.js" defer></script><script src="/my-blog/assets/js/7.0366ddcd.js" defer></script>
+  </body>
+</html>
